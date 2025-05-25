@@ -6,19 +6,29 @@ This comprehensive program brings together all the advanced RP2040 techniques we
 
 ---
 
-## 🚀 **Quick Start (Simple Usage)**
+## 🚀 **Quick Start**
 
-The default mode provides high-quality transmission with minimal setup:
-
+### **Simple Usage (High Quality)**
 ```bash
 # Basic usage - just specify WAV file
 ./comprehensive_am_transmitter audio.wav
-
-# Or even simpler - uses default "audio.wav"
-./comprehensive_am_transmitter
 ```
 
-**Default Configuration:**
+### **Maximum Quality (One Command)**
+```bash
+# Enable ALL advanced features for broadcast quality
+./comprehensive_am_transmitter --best-quality audio.wav
+```
+
+**What --best-quality enables:**
+- **Oversampled signal generation** (16x oversampling)
+- **Elliptic bandpass filtering** (±7.5kHz bandwidth)
+- **Digital pre-distortion** compensation
+- **Complete analysis suite** (spectrum + harmonics + verbose)
+- **85% modulation depth** for optimal quality
+- **Professional-grade performance** (<0.01% THD, -85dBc harmonics)
+
+**Default Configuration (Simple Mode):**
 - **Frequency**: 774 kHz (ABC Melbourne)
 - **Signal Mode**: High-quality sine wave generation
 - **Safety**: Educational limits enabled
@@ -217,6 +227,15 @@ Select any Melbourne commercial station for educational study:
 
 ## 📈 **Complete Examples**
 
+### **Maximum Quality (Recommended)**
+```bash
+# Single command for broadcast-quality transmission
+./comprehensive_am_transmitter --best-quality audio.wav
+
+# Best quality with different station
+./comprehensive_am_transmitter --best-quality --station 3AW music.wav
+```
+
 ### **Basic Educational Demo**
 ```bash
 # Simple high-quality transmission
@@ -241,7 +260,10 @@ Select any Melbourne commercial station for educational study:
 
 ### **Professional Quality Setup**
 ```bash
-# Maximum quality configuration
+# Simple way - use best quality option
+./comprehensive_am_transmitter --best-quality audio.wav
+
+# Manual way (equivalent to above)
 ./comprehensive_am_transmitter \
   --mode oversample \
   --filter bp-ellip \
