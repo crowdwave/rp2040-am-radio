@@ -1,0 +1,73 @@
+cmake_minimum_required(VERSION 3.13)
+
+# Include build functions from Pico SDK
+include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+
+project(am_transmitter C CXX ASM)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+
+# Initialize the SDK
+pico_sdk_init()
+
+cmake_minimum_required(VERSION 3.13)
+
+# Include build functions from Pico SDK
+include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+
+project(comprehensive_am_transmitter C CXX ASM)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+
+# Initialize the SDK
+pico_sdk_init()
+
+# Generate PIO headers from assembly files
+pico_generate_pio_header(comprehensive_am_transmitter ${CMAKE_CURRENT_LIST_DIR}/am_carrier.pio)
+pico_generate_pio_header(comprehensive_am_transmitter ${CMAKE_CURRENT_LIST_DIR}/advanced_am_carrier.pio)
+
+add_executable(comprehensive_am_transmitter
+    comprehensive_am_transmitter.c
+)
+
+# Link required libraries
+target_link_libraries(comprehensive_am_transmitter 
+    pico_stdlib
+    hardware_dma
+    hardware_pio
+    hardware_clocks
+    hardware_gpio
+    hardware_interp
+    pico_multicore
+    pico_fatfs
+)
+
+# Enable USB output, disable UART output for serial
+pico_enable_stdio_usb(comprehensive_am_transmitter 1)
+pico_enable_stdio_uart(comprehensive_am_transmitter 0)
+
+# Create map/bin/hex/uf2 file etc.
+pico_add_extra_outputs(comprehensive_am_transmitter)
+
+# Add compiler definitions
+target_compile_definitions(comprehensive_am_transmitter PRIVATE
+    PICO_STDIO_UART=0
+    PICO_STDIO_USB=1
+    PICO_STACK_SIZE=0x2000
+    PICO_CORE1_STACK_SIZE=0x1000
+)
+
+# Enable usb output, disable uart output
+pico_enable_stdio_usb(am_transmitter 1)
+pico_enable_stdio_uart(am_transmitter 0)
+
+# Create map/bin/hex/uf2 file etc.
+pico_add_extra_outputs(am_transmitter)
+
+# Add compiler definitions
+target_compile_definitions(am_transmitter PRIVATE
+    PICO_STDIO_UART=0
+    PICO_STDIO_USB=1
+)
